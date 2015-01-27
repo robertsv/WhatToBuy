@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8'?>
+<tomcat-users>
+  <user username="user1" password="user1" roles="role1"/>
+  <user username="user2" password="user2" roles="role2"/>
+  <user username="user3" password="user3"/>
+</tomcat-users>

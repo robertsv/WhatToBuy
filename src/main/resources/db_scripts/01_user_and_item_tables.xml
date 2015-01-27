@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet author="robertsv" id="1">
+		<createSequence incrementBy="1" maxValue="9223372036854775807"
+			minValue="1" sequenceName="user_seq" startValue="2" />
+	</changeSet>
+
+	<changeSet author="robertsv" id="2">
+		<createSequence incrementBy="1" maxValue="9223372036854775807"
+			minValue="1" sequenceName="item_seq" startValue="2" />
+	</changeSet>
+
+	<changeSet author="robertsv" id="3">
+		<createTable tableName="user">
+			<column name="id" type="bigint" defaultValueComputed="nextval('user_seq'::regclass)" />
+			<column name="name" type="varchar(255)" />
+			<column name="username" type="varchar(255)" />
+			<column name="password" type="varchar(255)" />
+		</createTable>
+		<addPrimaryKey tableName="user" columnNames="id"
+			constraintName="pkey_user" />
+	</changeSet>
+
+	<changeSet author="robertsv" id="4">
+		<createTable tableName="item">
+			<column name="id" type="bigint" defaultValueComputed="nextval('item_seq'::regclass)" />
+			<column name="name" type="varchar(255)" />
+			<column name="status" type="boolean" />
+			<column name="user_id" type="bigint" />
+		</createTable>
+		<addPrimaryKey tableName="item" columnNames="id"
+			constraintName="pkey_item" />
+		<addForeignKeyConstraint baseColumnNames="user_id"
+			baseTableName="item" constraintName="fk_user_item"
+			referencedColumnNames="id" referencedTableName="user" />
+	</changeSet>
+
+</databaseChangeLog>
