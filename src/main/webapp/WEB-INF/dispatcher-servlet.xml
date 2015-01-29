@@ -9,6 +9,12 @@ http://www.springframework.org/schema/context
 http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
 	<context:component-scan base-package="lv.whattobuy.web" />
+	
+	<mvc:annotation-driven />
+	
+	<mvc:resources mapping="/css/**" location="/css/" />
+    <mvc:resources mapping="/images/**" location="/images/" />
+    <mvc:resources mapping="/js/**" location="/js/" />  
 
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -77,5 +83,7 @@ http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 			<null />
 		</constructor-arg>
 	</bean>
+	
+	
 
 </beans>
