@@ -18,13 +18,26 @@ public class ExampleController {
 	@Autowired
     DSLContext create;
 
-	@RequestMapping("/test")
-	public String doTest() {
+	@RequestMapping("/login")
+	public String doLogin() {
 		System.out.println(create.select(field("name")).from(table("item")).getSQL());
+		
 		Result<Record> result = create.select().from(Item.ITEM).join(User.USER).on(User.USER.ID.equal(Item.ITEM.USER_ID)).fetch();
 		for (Record record : result) {
 			System.out.println(record.toString());
 		}
+		
+		return "login";
+	}
+	
+	@RequestMapping("/main")
+	public String doMain() {
+		
+		return "main";
+	}
+	
+	@RequestMapping("/test")
+	public String doTest() {
 		
 		return "test";
 	}
