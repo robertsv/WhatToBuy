@@ -48,7 +48,12 @@
 
     </div>
 
-
+<div class="container">
+                 <div class="row">
+                  <div class="col-md-6"><p><label for="itemName">Item Name</label></div>
+                  <div class="col-md-6"><p><input type="text" id="itemName" class="form-control" required autofocus> </div>
+                 <div>
+                </div>
     
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script src="js/bootstrap.js"></script>

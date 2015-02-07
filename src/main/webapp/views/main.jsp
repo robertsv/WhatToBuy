@@ -38,11 +38,10 @@
    </div>
    <div class="collapse navbar-collapse" id="myNavbar">
     <ul class="nav navbar-nav">
-     <li class="active"><a href="#" id="addItemLInk">Add Item</a></li>
-     <li><a href="#">TODO</a></li>
+     <li class="active"><a href="#" data-toggle="modal" data-target="#addItemDialog">Add Item</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-     <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+     <li><a href="#" id="logoutLink" data-toggle="modal" data-target="#confirmLogoutDialog"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
     </ul>
    </div>
   </div>
@@ -56,6 +55,54 @@
    <li class="list-group-item">Ziepes</li>
   </ul>
  </div>
+ 
+ <div id="addItemDialog" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"></button>
+                <h4 class="modal-title">Add item</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                 <div class="row">
+                  <div class="col-md-3"><p><label for="itemName">Item Name</label></div>
+                  <div class="col-md-9"><p><input type="text" id="itemName" class="form-control" required autofocus> </div>
+                 <div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Add</button>
+            </div>
+        </div>
+    </div>
+</div></div></div>
+
+<div id="confirmLogoutDialog" class="modal fade bs-example-modal-lg">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+        <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"></button>
+                <h4 class="modal-title">Logout</h4>
+            </div>
+          <h4>Do you want to logout?</h4>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="confirmLogoutDialog2" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      ...
+    </div>
+  </div>
+</div>
+
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
  <script src="js/bootstrap.js"></script>
  <script type="text/javascript">
@@ -83,102 +130,10 @@
 				
 			});
 		
-		$("#addItemLInk").on('click', function () {
-			$("#addItemLInk").modal('show');
-		});
-		
 	 });
  
- /*
- $(function () {
-	    $('.list-group.checked-list-box .list-group-item').each(function () {
-	        // Settings
-	        var $widget = $(this);
-	        var $checkbox = $('<input type="checkbox" class="hidden" />');
-	        var color = ($widget.data('color') ? $widget.data('color') : "primary");
-	        var style = ($widget.data('style') == "button" ? "btn-" : "list-group-item-");
-	        var settings = {
-	                on: {
-	                    icon: 'glyphicon glyphicon-check'
-	                },
-	                off: {
-	                    icon: 'glyphicon glyphicon-unchecked'
-	                }
-	            };
-	            
-	        $widget.css('cursor', 'pointer')
-	        $widget.append($checkbox);
-
-	        // Event Handlers
-	        $widget.on('click', function () {
-	            $checkbox.prop('checked', !$checkbox.is(':checked'));
-	            $checkbox.triggerHandler('change');
-	            updateDisplay();
-	        });
-	        $checkbox.on('change', function () {
-	            updateDisplay();
-	        });
-	          
-
-	        // Actions
-	        function updateDisplay() {
-	            var isChecked = $checkbox.is(':checked');
-
-	            // Set the button's state
-	            $widget.data('state', (isChecked) ? "on" : "off");
-
-	            // Set the button's icon
-	            $widget.find('.state-icon')
-	                .removeClass()
-	                .addClass('state-icon ' + settings[$widget.data('state')].icon);
-
-	            // Update the button's color
-	            if (isChecked) {
-	                $widget.addClass(style + color + ' active');
-	            } else {
-	                $widget.removeClass(style + color + ' active');
-	            }
-	        }
-			
-	        updateDisplay();
-	        
-	        // Initialization
-	        function init() {
-	            
-	            if ($widget.data('checked') == true) {
-	                $checkbox.prop('checked', !$checkbox.is(':checked'));
-	            }
-	            
-	            updateDisplay();
-
-	            // Inject the icon if applicable
-	            if ($widget.find('.state-icon').length == 0) {
-	                $widget.prepend('<span class="state-icon ' + settings[$widget.data('state')].icon + '"></span>');
-	            }
-	        }
-	        init();
-	    });
-	});
- */
- </script>
  
- <div id="addItemDialog" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"></button>
-                <h4 class="modal-title">Add item</h4>
-            </div>
-            <div class="modal-body">
-                TODO
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Add</button>
-            </div>
-        </div>
-    </div>
-</div>
+ </script>
  
 </body>
 </html>
