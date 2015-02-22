@@ -5,20 +5,20 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>WhatToBuy - Main page</title>
-<link href="css/bootstrap.css" rel="stylesheet">
+<link href="../css/bootstrap.css" rel="stylesheet">
 <style type="text/css">
 .form-signin {
-	margin: 0 auto;
-	min-width: 300px;
-	max-width: 400px;
+ margin: 0 auto;
+ min-width: 300px;
+ max-width: 400px;
 }
 
 .btn-sign {
-	margin-top: 15px;
+ margin-top: 15px;
 }
 
 .form-control {
-	margin-bottom: 10px;
+ margin-bottom: 10px;
 }
 
 .list-group-item {
@@ -27,7 +27,7 @@
 
 </style>
 </head>
-<body>
+<body ng-app="whatToByApp">
  <nav class="navbar navbar-inverse">
   <div class="container-fluid">
    <div class="navbar-header">
@@ -56,30 +56,37 @@
   </ul>
  </div>
  
- <div id="addItemDialog" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"></button>
-                <h4 class="modal-title">Add item</h4>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid">
-                 <div class="row">
-                  <div class="col-md-3"><p><label for="itemName">Item Name</label></div>
-                  <div class="col-md-9"><p><input type="text" id="itemName" class="form-control" required autofocus> </div>
-                 <div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Add</button>
-            </div>
+ <div id="addItemDialog" class="modal fade" ng-controller="ItemController">
+  <div class="modal-dialog">
+    <div class="modal-content">
+     <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal"></button>
+      <h4 class="modal-title">Add item</h4>
+     </div>
+     <div class="modal-body">
+      <div class="container-fluid">
+       <div class="row">
+        <div class="col-md-3">
+         <p>
+          <label for="itemName">Item Name</label>
         </div>
+        <div class="col-md-9">
+         <p>
+          <input type="text" id="itemName" class="form-control" required autofocus ng-model="itemName">
+        </div>
+        <div></div>
+       </div>
+       <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" ng-click="addItem()" >Add</button>
+       </div>
+      </div>
+     </div>
     </div>
-</div></div></div>
-
-<div id="confirmLogoutDialog" class="modal fade bs-example-modal-lg">
+  </div>
+ </div>
+ 
+ <div id="confirmLogoutDialog" class="modal fade bs-example-modal-lg">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
         <div class="modal-header">
@@ -104,36 +111,63 @@
 </div>
 
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
- <script src="js/bootstrap.js"></script>
+ <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min.js"></script>
+ 
+ <script src="../js/bootstrap.js"></script>
+ 
  <script type="text/javascript">
- 
  $(function() {
-		$('.list-group.checked-list-box .list-group-item').each(
-			function() {
-				var $item = $(this);
-				
-				var $checkBox = $("<input>", {
-					type:"checkbox"
-				});
-				
-				$checkBox.prependTo($item);
-				
-				$item.on('click', function () {
-					$checkBox.prop('checked', !$checkBox.is(':checked'));
-					$checkBox.triggerHandler('change');
-					if ($checkBox.is(':checked')) {
-						$(this).addClass("active");
-					} else {
-						$(this).removeClass("active");
-					}
-		        });
-				
-			});
-		
-	 });
- 
- 
+  $('.list-group.checked-list-box .list-group-item').each(
+   function() {
+    var $item = $(this);
+    
+    var $checkBox = $("<input>", {
+     type:"checkbox"
+    });
+    
+    $checkBox.prependTo($item);
+    
+    $item.on('click', function () {
+     $checkBox.prop('checked', !$checkBox.is(':checked'));
+     $checkBox.triggerHandler('change');
+     if ($checkBox.is(':checked')) {
+      $(this).addClass("active");
+     } else {
+      $(this).removeClass("active");
+     }
+          });
+    
+   });
+  
+  });
  </script>
+ 
+ <script>
+		
+		var helloApp = angular.module("whatToByApp", []);
+
+		helloApp.controller("ItemController", function($scope, $http) {
+			$scope.addItem = function() {
+				addItem($scope, $http);
+			};
+		});
+
+		function addItem(scope, http) {
+			alert(scope.itemName);
+
+			var responsePromise = http.get("add?name=" + scope.itemName);
+
+			responsePromise.success(function(data, status, headers, config) {
+				// scope.data.requests = data;
+				// TODO (RV): ??? 
+			});
+
+			responsePromise.error(function(data, status, headers, config) {
+				// TODO (RV): ???
+			});
+		}
+		
+	</script>
  
 </body>
 </html>

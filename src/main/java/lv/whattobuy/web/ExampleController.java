@@ -2,6 +2,9 @@ package lv.whattobuy.web;
 
 import static org.jooq.impl.DSL.field;
 import static org.jooq.impl.DSL.table;
+
+import java.util.concurrent.Callable;
+
 import lv.whattobuy.domain.tables.Item;
 import lv.whattobuy.domain.tables.User;
 
@@ -9,10 +12,12 @@ import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@Async
 public class ExampleController {
 	
 	@Autowired
@@ -41,5 +46,20 @@ public class ExampleController {
 		
 		return "test";
 	}
+	
+	@RequestMapping("/testAsync1")
+	public Callable<String> doTestAsync1() {
+		return new Callable<String>() {
+	        public String call() throws Exception {
+	        	for (int i = 0; i < 5; i++) {
+	        		System.out.println(i);
+	        		Thread.sleep(1000);
+				}
+	            return "test";
+	        }
+	    };
+	}
+	
+	
 
 }

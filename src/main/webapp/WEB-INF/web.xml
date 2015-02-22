@@ -14,6 +14,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
             org.springframework.web.servlet.DispatcherServlet
         </servlet-class>
         <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
     </servlet>
  
     <servlet-mapping>
