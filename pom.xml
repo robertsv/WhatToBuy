@@ -118,6 +118,10 @@
 							<excludes></excludes>
 							<inputSchema>public</inputSchema>
 						</database>
+                         <generate>
+                            <records>true</records>
+                            <pojos>false</pojos>
+                        </generate>
 						<target>
 							<packageName>lv.whattobuy.domain</packageName>
 							<directory>src/main/java</directory>
