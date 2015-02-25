@@ -2,10 +2,10 @@ package lv.whattobuy.dto;
 
 public class Item {
 	
-	Long id;
-	String name;
-	boolean status;
-	long userId;
+	private Long id;
+	private String name;
+	private boolean status;
+	private long userId;
 	
 	public Long getId() {
 		return id;
@@ -19,7 +19,7 @@ public class Item {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public boolean isStatus() {
+	public boolean getStatus() {
 		return status;
 	}
 	public void setStatus(boolean status) {

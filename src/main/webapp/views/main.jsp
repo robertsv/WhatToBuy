@@ -46,13 +46,19 @@
    </div>
   </div>
  </nav>
- <div class="container">
+ 
+ <div class="container" ng-controller="ItemController">
   <h3 class="text-center">Items to buy</h3>
-  <ul class="list-group checked-list-box">
+  <ul class="list-group checked-list-box" >
+   <span ng-repeat="item in items">
+    <li class="list-group-item">{{item.name}}</li>
+   </span>
+   <!-- XXX
    <li class="list-group-item">Piens</li>
    <li class="list-group-item" data-checked="true">Maize</li>
    <li class="list-group-item">Alus</li>
    <li class="list-group-item">Ziepes</li>
+   -->
   </ul>
  </div>
  
@@ -116,57 +122,90 @@
  <script src="../js/bootstrap.js"></script>
  
  <script type="text/javascript">
- $(function() {
-  $('.list-group.checked-list-box .list-group-item').each(
-   function() {
-    var $item = $(this);
-    
-    var $checkBox = $("<input>", {
-     type:"checkbox"
-    });
-    
-    $checkBox.prependTo($item);
-    
-    $item.on('click', function () {
-     $checkBox.prop('checked', !$checkBox.is(':checked'));
-     $checkBox.triggerHandler('change');
-     if ($checkBox.is(':checked')) {
-      $(this).addClass("active");
-     } else {
-      $(this).removeClass("active");
-     }
-          });
-    
-   });
-  
-  });
+ 
+ function updateTable2() {
+	  $('.list-group.checked-list-box .list-group-item').each(
+			   function() {
+			    var $item = $(this);
+			    
+			    var $checkBox = $("<input>", {
+			     type:"checkbox"
+			    });
+			    
+			    $checkBox.prependTo($item);
+			    
+			    $item.on('click', function () {
+			     $checkBox.prop('checked', !$checkBox.is(':checked'));
+			     $checkBox.triggerHandler('change');
+			     if ($checkBox.is(':checked')) {
+			      $(this).addClass("active");
+			      // TODO (RV): add impl
+			     } else {
+			      $(this).removeClass("active");
+			   // TODO (RV): add impl
+			     }
+			          });
+			    
+			   });
+ }
  </script>
  
  <script>
 		
-		var helloApp = angular.module("whatToByApp", []);
-
-		helloApp.controller("ItemController", function($scope, $http) {
+		var whatToByApp = angular.module("whatToByApp", []);
+		
+		whatToByApp.controller("ItemController", function($scope, $http) {
+			
+			$scope.items = {};
+			
+			updateTable($scope, $http);
+			
 			$scope.addItem = function() {
 				addItem($scope, $http);
 			};
 		});
 
+		
 		function addItem(scope, http) {
-			alert(scope.itemName);
-
-			var responsePromise = http.get("add?name=" + scope.itemName);
-
-			responsePromise.success(function(data, status, headers, config) {
-				// scope.data.requests = data;
-				// TODO (RV): ??? 
+			
+			var transform = function(data){
+		        return $.param(data);
+		    };
+			
+			var request = http({
+				method : "post",
+				url : "../itemservice/add",
+				headers: {
+        			'Content-Type': 'application/x-www-form-urlencoded'
+    			},
+				data : {
+					name : scope.itemName
+				},
+				transformRequest: transform
+			});
+			
+			
+			request.success(function(data, status, headers, config) {
+				$('#addItemDialog').modal('hide');
 			});
 
-			responsePromise.error(function(data, status, headers, config) {
-				// TODO (RV): ???
+			request.error(function(data, status, headers, config) {
+				// TODO (RV):
 			});
+
 		}
 		
+
+		function updateTable(scope, http) {
+			var responsePromise = http.get("../itemservice/getItems");
+			responsePromise.success(function(data, status, headers, config) {
+				scope.items = data;
+				updateTable2();
+			});
+			responsePromise.error(function(data, status, headers, config) {
+				// TODO (RV):
+			});
+		}
 	</script>
  
 </body>
