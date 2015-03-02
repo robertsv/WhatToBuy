@@ -4,11 +4,11 @@ import java.util.List;
 
 public interface CrudDao<T> {
 
-	T findById(T enity);
+	T findById(long id);
 	
 	long add(T entity);
 	
-	void save(T entity);
+	void update(T entity);
 	
 	List<T> getAll();
 	

@@ -44,10 +44,14 @@ public class ItemRestService {
 	public void delete(@PathVariable long itemId) {
 	}
 	
-	@RequestMapping(value = "/changeStatus/{id}/{status}", method = RequestMethod.POST)
+	@RequestMapping(value = "/changeStatus/{itemId}/{status}", method = RequestMethod.POST)
 	@ResponseBody
 	public void changeStatus(@PathVariable long itemId, @PathVariable boolean status) {
 		System.out.println("Item to be changes: " + itemId + " item status: " + status);
+		
+		Item item = itemDao.findById(itemId);
+		item.setStatus(status);
+		itemDao.update(item);
 	}
 	
 	

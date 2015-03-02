@@ -24,7 +24,7 @@ public class UserJooqDao implements UserDao {
 		return users.get(0);
 	}
 
-	public User findById(User enity) {
+	public User findById(long id) {
 		throw new UnsupportedOperationException("Not implemented!");
 	}
 
@@ -32,7 +32,7 @@ public class UserJooqDao implements UserDao {
 		throw new UnsupportedOperationException("Not implemented!");
 	}
 
-	public void save(User entity) {
+	public void update(User entity) {
 		throw new UnsupportedOperationException("Not implemented!");
 	}
 

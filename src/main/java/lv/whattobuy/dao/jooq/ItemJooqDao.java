@@ -1,19 +1,16 @@
 package lv.whattobuy.dao.jooq;
 
+import static lv.whattobuy.domain.tables.Item.ITEM;
+
 import java.util.List;
 
 import lv.whattobuy.dao.ItemDao;
 import lv.whattobuy.dto.Item;
-import lv.whattobuy.dto.User;
 import lv.whattobuy.mappers.jooq.ItemRecordMapper;
-import lv.whattobuy.mappers.jooq.UserRecordMapper;
 
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import static lv.whattobuy.domain.tables.Item.ITEM;
-import static lv.whattobuy.domain.tables.User.USER;
 
 @Repository
 public class ItemJooqDao implements ItemDao {
@@ -21,8 +18,11 @@ public class ItemJooqDao implements ItemDao {
 	@Autowired
 	private DSLContext create;
 
-	public Item findById(Item enity) {
-		throw new UnsupportedOperationException("Not implemented!");
+	public Item findById(long id) {
+		List<Item> items = create.select().from(ITEM).where(ITEM.ID.equal(id))
+				.fetch().into(ITEM).map(new ItemRecordMapper());
+
+		return items.get(0);
 	}
 
 	public long add(Item entity) {
@@ -33,8 +33,10 @@ public class ItemJooqDao implements ItemDao {
 				.getValue(0);
 	}
 
-	public void save(Item entity) {
-		throw new UnsupportedOperationException("Not implemented!");
+	public void update(Item entity) {
+		create.update(ITEM).set(ITEM.NAME, entity.getName())
+				.set(ITEM.STATUS, entity.getStatus())
+				.set(ITEM.USER_ID, entity.getUserId()).where(ITEM.ID.equal(entity.getId())).execute();
 	}
 
 	public List<Item> getAll() {

@@ -51,14 +51,8 @@
   <h3 class="text-center">Items to buy</h3>
   <ul class="list-group checked-list-box" >
    <span ng-repeat="item in items">
-    <li class="list-group-item">{{item.name}}</li>
+    <li class="list-group-item" ng-click="changeStatus($index)">{{item.name}}</li>
    </span>
-   <!-- XXX
-   <li class="list-group-item">Piens</li>
-   <li class="list-group-item" data-checked="true">Maize</li>
-   <li class="list-group-item">Alus</li>
-   <li class="list-group-item">Ziepes</li>
-   -->
   </ul>
  </div>
  
@@ -84,7 +78,7 @@
        </div>
        <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" ng-click="addItem()" >Add</button>
+        <button type="button" class="btn btn-primary" ng-click="addItem()" ng-model="itemName">Add</button>
        </div>
       </div>
      </div>
@@ -123,7 +117,7 @@
  
  <script type="text/javascript">
  
- function updateTable2() {
+ function enrichTable() {
 	  $('.list-group.checked-list-box .list-group-item').each(
 			   function() {
 			    var $item = $(this);
@@ -163,8 +157,39 @@
 			$scope.addItem = function() {
 				addItem($scope, $http);
 			};
+			
+			$scope.changeStatus = function(index) {
+				changeStatus($scope, $http, index);
+			};
+			
 		});
 
+		function changeStatus(scope, http, index) {
+			scope.items[index].status = !scope.items[index].status;
+			
+			var request = http({
+				method : "post",
+				url : "../itemservice/changeStatus/" + scope.items[index].id + "/" + scope.items[index].status,
+				headers: {
+        			'Content-Type': 'application/x-www-form-urlencoded'
+    			}
+				//,
+				//data : {
+				//	name : scope.itemName
+				//},
+				//transformRequest: transform
+			});
+			
+			
+			request.success(function(data, status, headers, config) {
+				// TODO (RV):
+			});
+
+			request.error(function(data, status, headers, config) {
+				// TODO (RV):
+			});
+			
+		}
 		
 		function addItem(scope, http) {
 			
@@ -200,7 +225,7 @@
 			var responsePromise = http.get("../itemservice/getItems");
 			responsePromise.success(function(data, status, headers, config) {
 				scope.items = data;
-				updateTable2();
+				enrichTable();
 			});
 			responsePromise.error(function(data, status, headers, config) {
 				// TODO (RV):
