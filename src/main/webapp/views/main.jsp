@@ -51,7 +51,7 @@
   <h3 class="text-center">Items to buy</h3>
   <ul class="list-group checked-list-box" >
    <span ng-repeat="item in items">
-    <li class="list-group-item" ng-click="changeStatus($index)">{{item.name}}</li>
+    <li class="list-group-item" on-long-press="function() { alert('yes'); }" ng-click="changeStatus($index)">{{item.name}}</li>
    </span>
   </ul>
  </div>
@@ -148,6 +148,53 @@
 		
 		var whatToByApp = angular.module("whatToByApp", []);
 		
+		// TODO (RV): review
+		
+		whatToByApp.directive('onLongPress', function($timeout) {
+			  return {
+				  link: function($scope, $elm, $attrs){
+			            
+					  $elm.bind('mousedown', function(evt) {
+						  	console.log('mousedown');
+							// Locally scoped variable that will keep track of the long press
+							$scope.longPress = true;
+
+							// We'll set a timeout for 600 ms for a long press
+							$timeout(function() {
+								if ($scope.longPress) {
+									// If the touchend event hasn't fired,
+									// apply the function given in on the element's on-long-press attribute
+									alert('also yes :D');
+									/*
+									$scope.$apply(function() {
+										$scope.$eval($attrs.onLongPress);
+									});
+									*/
+								}
+							}, 600);
+						});
+					  
+					  
+					  $elm.bind('mouseup', function(evt) {
+						  	console.log('mouseup');
+							// Prevent the onLongPress event from firing
+							$scope.longPress = false;
+							// If there is an on-touch-end function attached to this element, apply it
+							/*
+							if ($attrs.onTouchEnd) {
+								$scope.$apply(function() {
+									$scope.$eval($attrs.onTouchEnd);
+								});
+							}
+							*/
+						});
+
+			        }
+			  };
+			});
+		
+		
+		
 		whatToByApp.controller("ItemController", function($scope, $http) {
 			
 			$scope.items = {};
@@ -173,11 +220,6 @@
 				headers: {
         			'Content-Type': 'application/x-www-form-urlencoded'
     			}
-				//,
-				//data : {
-				//	name : scope.itemName
-				//},
-				//transformRequest: transform
 			});
 			
 			
