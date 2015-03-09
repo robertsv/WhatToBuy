@@ -51,7 +51,7 @@
   <h3 class="text-center">Items to buy</h3>
   <ul class="list-group checked-list-box" >
    <span ng-repeat="item in items">
-    <li class="list-group-item" on-long-press="function() { alert('yes'); }" ng-click="changeStatus($index)">{{item.name}}</li>
+    <li class="list-group-item" on-long-press="showDeleteConfirmation($index)" ng-click="changeStatus($index)">{{item.name}}</li>
    </span>
   </ul>
  </div>
@@ -78,7 +78,7 @@
        </div>
        <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" ng-click="addItem()" ng-model="itemName">Add</button>
+        <button type="button" class="btn btn-primary" ng-click="addItem($index)" ng-model="itemName">Add</button>
        </div>
       </div>
      </div>
@@ -102,12 +102,20 @@
     </div>
 </div>
 
-<div id="confirmLogoutDialog2" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      ...
+<div id="confirmDeleteDialog" class="modal fade bs-example-modal-lg" ng-controller="ItemController">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+        <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"></button>
+                <h4 class="modal-title">Delete?</h4>
+            </div>
+          <h4>Do you want to delete item?</h4>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" ng-click="deleteItem()">Yes</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -152,24 +160,21 @@
 		
 		whatToByApp.directive('onLongPress', function($timeout) {
 			  return {
+				  
+				  restrict:'A',
+				  
 				  link: function($scope, $elm, $attrs){
 			            
 					  $elm.bind('mousedown', function(evt) {
 						  	console.log('mousedown');
-							// Locally scoped variable that will keep track of the long press
 							$scope.longPress = true;
-
-							// We'll set a timeout for 600 ms for a long press
 							$timeout(function() {
 								if ($scope.longPress) {
-									// If the touchend event hasn't fired,
-									// apply the function given in on the element's on-long-press attribute
-									alert('also yes :D');
-									/*
+									
 									$scope.$apply(function() {
 										$scope.$eval($attrs.onLongPress);
 									});
-									*/
+									
 								}
 							}, 600);
 						});
@@ -177,16 +182,7 @@
 					  
 					  $elm.bind('mouseup', function(evt) {
 						  	console.log('mouseup');
-							// Prevent the onLongPress event from firing
 							$scope.longPress = false;
-							// If there is an on-touch-end function attached to this element, apply it
-							/*
-							if ($attrs.onTouchEnd) {
-								$scope.$apply(function() {
-									$scope.$eval($attrs.onTouchEnd);
-								});
-							}
-							*/
 						});
 
 			        }
@@ -195,7 +191,9 @@
 		
 		
 		
-		whatToByApp.controller("ItemController", function($scope, $http) {
+		
+		
+		whatToByApp.controller("ItemController", function($scope, $http, $rootScope) {
 			
 			$scope.items = {};
 			
@@ -209,7 +207,42 @@
 				changeStatus($scope, $http, index);
 			};
 			
+			$scope.showDeleteConfirmation = function(index) {
+				showDeleteConfirmation($rootScope, $http, index);
+			};
+			
+			$scope.deleteItem = function() {
+				deleteItem($rootScope, $http);
+			};
+			
 		});
+		
+		function showDeleteConfirmation(rootScope, http, index) {
+			rootScope.itemToDatele = index;
+			
+			$("#confirmDeleteDialog").modal("show");
+		}
+		
+		function deleteItem(rootScope, http) {
+			
+			var request = http({
+				method : "post",
+				url : "../itemservice/delete/" + rootScope.itemToDatele,
+				headers: {
+        			'Content-Type': 'application/x-www-form-urlencoded'
+    			}
+			});
+			
+			request.success(function(data, status, headers, config) {
+				// TODO (RV):
+				alert('Deleted');
+			});
+
+			request.error(function(data, status, headers, config) {
+				// TODO (RV):
+				alert('Delete failed');
+			});
+		}
 
 		function changeStatus(scope, http, index) {
 			scope.items[index].status = !scope.items[index].status;
@@ -267,7 +300,8 @@
 			var responsePromise = http.get("../itemservice/getItems");
 			responsePromise.success(function(data, status, headers, config) {
 				scope.items = data;
-				enrichTable();
+				// TODO (RV): fix !!!
+				// enrichTable();
 			});
 			responsePromise.error(function(data, status, headers, config) {
 				// TODO (RV):
