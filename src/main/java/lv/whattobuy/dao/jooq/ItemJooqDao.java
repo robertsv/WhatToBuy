@@ -46,4 +46,8 @@ public class ItemJooqDao implements ItemDao {
 		return items;
 	}
 
+	public void delete(Item entity) {
+		create.delete(ITEM).where(ITEM.ID.equal(entity.getId())).execute();
+	}
+
 }

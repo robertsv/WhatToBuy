@@ -50,7 +50,7 @@
  <div class="container" ng-controller="ItemController">
   <h3 class="text-center">Items to buy</h3>
   <ul class="list-group checked-list-box" >
-   <span ng-repeat="item in items">
+   <span ng-repeat="item in items" on-last-repeat>
     <li class="list-group-item" on-long-press="showDeleteConfirmation($index)" ng-click="changeStatus($index)">{{item.name}}</li>
    </span>
   </ul>
@@ -158,104 +158,106 @@
 		
 		// TODO (RV): review
 		
-		whatToByApp.directive('onLongPress', function($timeout) {
-			  return {
-				  
-				  restrict:'A',
-				  
-				  link: function($scope, $elm, $attrs){
-			            
-					  $elm.bind('mousedown', function(evt) {
-						  	console.log('mousedown');
-							$scope.longPress = true;
-							$timeout(function() {
-								if ($scope.longPress) {
-									
-									$scope.$apply(function() {
-										$scope.$eval($attrs.onLongPress);
-									});
-									
-								}
-							}, 600);
-						});
-					  
-					  
-					  $elm.bind('mouseup', function(evt) {
-						  	console.log('mouseup');
-							$scope.longPress = false;
-						});
 
-			        }
-			  };
-			});
-		
-		
-		
-		
-		
-		whatToByApp.controller("ItemController", function($scope, $http, $rootScope) {
-			
+		whatToByApp.directive('onLastRepeat', function() {
+			return function(scope, element, attrs) {
+				if (scope.$last) {
+					enrichTable();
+				}
+			};
+		});
+
+		whatToByApp.directive('onLongPress', function($timeout) {
+			return {
+
+				restrict : 'A',
+
+				link : function($scope, $elm, $attrs) {
+
+					$elm.bind('mousedown', function(evt) {
+						console.log('mousedown');
+						$scope.longPress = true;
+						$timeout(function() {
+							if ($scope.longPress) {
+
+								$scope.$apply(function() {
+									$scope.$eval($attrs.onLongPress);
+								});
+
+							}
+						}, 600);
+					});
+
+					$elm.bind('mouseup', function(evt) {
+						console.log('mouseup');
+						$scope.longPress = false;
+					});
+
+				}
+			};
+		});
+
+		whatToByApp.controller("ItemController", function($scope, $http,
+				$rootScope) {
+
 			$scope.items = {};
-			
+
 			updateTable($scope, $http);
-			
+
 			$scope.addItem = function() {
 				addItem($scope, $http);
 			};
-			
+
 			$scope.changeStatus = function(index) {
 				changeStatus($scope, $http, index);
 			};
-			
+
 			$scope.showDeleteConfirmation = function(index) {
-				showDeleteConfirmation($rootScope, $http, index);
+				showDeleteConfirmation($rootScope, $scope, $http, index);
 			};
-			
+
 			$scope.deleteItem = function() {
 				deleteItem($rootScope, $http);
 			};
-			
+
 		});
-		
-		function showDeleteConfirmation(rootScope, http, index) {
-			rootScope.itemToDatele = index;
-			
+
+		function showDeleteConfirmation(rootScope, scope, http, index) {
+			rootScope.itemToDatele = scope.items[index].id;
 			$("#confirmDeleteDialog").modal("show");
 		}
-		
+
 		function deleteItem(rootScope, http) {
-			
+
 			var request = http({
 				method : "post",
 				url : "../itemservice/delete/" + rootScope.itemToDatele,
-				headers: {
-        			'Content-Type': 'application/x-www-form-urlencoded'
-    			}
+				headers : {
+					'Content-Type' : 'application/x-www-form-urlencoded'
+				}
 			});
-			
+
 			request.success(function(data, status, headers, config) {
-				// TODO (RV):
-				alert('Deleted');
+				$('#confirmDeleteDialog').modal('hide');
 			});
 
 			request.error(function(data, status, headers, config) {
 				// TODO (RV):
-				alert('Delete failed');
 			});
 		}
 
 		function changeStatus(scope, http, index) {
 			scope.items[index].status = !scope.items[index].status;
-			
+
 			var request = http({
 				method : "post",
-				url : "../itemservice/changeStatus/" + scope.items[index].id + "/" + scope.items[index].status,
-				headers: {
-        			'Content-Type': 'application/x-www-form-urlencoded'
-    			}
+				url : "../itemservice/changeStatus/" + scope.items[index].id
+						+ "/" + scope.items[index].status,
+				headers : {
+					'Content-Type' : 'application/x-www-form-urlencoded'
+				}
 			});
-			
-			
+
 			request.success(function(data, status, headers, config) {
 				// TODO (RV):
 			});
@@ -263,28 +265,27 @@
 			request.error(function(data, status, headers, config) {
 				// TODO (RV):
 			});
-			
+
 		}
-		
+
 		function addItem(scope, http) {
-			
-			var transform = function(data){
-		        return $.param(data);
-		    };
-			
+
+			var transform = function(data) {
+				return $.param(data);
+			};
+
 			var request = http({
 				method : "post",
 				url : "../itemservice/add",
-				headers: {
-        			'Content-Type': 'application/x-www-form-urlencoded'
-    			},
+				headers : {
+					'Content-Type' : 'application/x-www-form-urlencoded'
+				},
 				data : {
 					name : scope.itemName
 				},
-				transformRequest: transform
+				transformRequest : transform
 			});
-			
-			
+
 			request.success(function(data, status, headers, config) {
 				$('#addItemDialog').modal('hide');
 			});
@@ -294,14 +295,11 @@
 			});
 
 		}
-		
 
 		function updateTable(scope, http) {
 			var responsePromise = http.get("../itemservice/getItems");
 			responsePromise.success(function(data, status, headers, config) {
 				scope.items = data;
-				// TODO (RV): fix !!!
-				// enrichTable();
 			});
 			responsePromise.error(function(data, status, headers, config) {
 				// TODO (RV):

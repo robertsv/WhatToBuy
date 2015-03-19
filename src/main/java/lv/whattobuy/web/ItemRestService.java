@@ -39,9 +39,11 @@ public class ItemRestService {
 		itemDao.add(item);
 	}
 
-	@RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/delete/{itemId}", method = RequestMethod.POST)
 	@ResponseBody
 	public void delete(@PathVariable long itemId) {
+		Item item = itemDao.findById(itemId);
+		itemDao.delete(item);
 	}
 	
 	@RequestMapping(value = "/changeStatus/{itemId}/{status}", method = RequestMethod.POST)

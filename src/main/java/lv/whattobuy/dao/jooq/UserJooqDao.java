@@ -40,4 +40,8 @@ public class UserJooqDao implements UserDao {
 		throw new UnsupportedOperationException("Not implemented!");
 	}
 
+	public void delete(User entity) {
+		throw new UnsupportedOperationException("Not implemented!");
+	}
+
 }

@@ -10,6 +10,8 @@ public interface CrudDao<T> {
 	
 	void update(T entity);
 	
+	void delete(T entity);
+	
 	List<T> getAll();
 	
 }
