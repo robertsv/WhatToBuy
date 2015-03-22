@@ -40,7 +40,7 @@ public class ItemJooqDao implements ItemDao {
 	}
 
 	public List<Item> getAll() {
-		List<Item> items = create.select().from(ITEM).fetch().into(ITEM)
+		List<Item> items = create.select().from(ITEM).orderBy(ITEM.ID).fetch().into(ITEM)
 				.map(new ItemRecordMapper());
 
 		return items;

@@ -27,7 +27,7 @@
 
 </style>
 </head>
-<body ng-app="whatToByApp">
+<body ng-app="whatToByApp" ng-controller="ItemController">
  <nav class="navbar navbar-inverse">
   <div class="container-fluid">
    <div class="navbar-header">
@@ -47,16 +47,19 @@
   </div>
  </nav>
  
- <div class="container" ng-controller="ItemController">
+ <div class="container" > <!-- TODO (RV): ng-controller="ItemController" -->
   <h3 class="text-center">Items to buy</h3>
   <ul class="list-group checked-list-box" >
-   <span ng-repeat="item in items" on-last-repeat>
-    <li class="list-group-item" on-long-press="showDeleteConfirmation($index)" ng-click="changeStatus($index)">{{item.name}}</li>
+   <span ng-repeat="item in data.requests">
+    <li class="list-group-item" 
+     on-long-press="showDeleteConfirmation($index)" 
+     ng-click="changeStatus($index)"
+     ng-class="{'active' : item.status == true}">{{item.name}}</li>
    </span>
   </ul>
  </div>
  
- <div id="addItemDialog" class="modal fade" ng-controller="ItemController">
+ <div id="addItemDialog" class="modal fade" > <!-- TODO (RV): ng-controller="ItemController" -->
   <div class="modal-dialog">
     <div class="modal-content">
      <div class="modal-header">
@@ -78,7 +81,7 @@
        </div>
        <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" ng-click="addItem($index)" ng-model="itemName">Add</button>
+        <button type="button" class="btn btn-primary" ng-click="addItem()" ng-model="itemName">Add</button>
        </div>
       </div>
      </div>
@@ -102,7 +105,7 @@
     </div>
 </div>
 
-<div id="confirmDeleteDialog" class="modal fade bs-example-modal-lg" ng-controller="ItemController">
+<div id="confirmDeleteDialog" class="modal fade bs-example-modal-lg" > <!-- TODO (RV): ng-controller="ItemController" -->
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
         <div class="modal-header">
@@ -118,55 +121,19 @@
     </div>
 </div>
 
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
- <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.js"></script>
+ <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.js"></script>
  
  <script src="../js/bootstrap.js"></script>
  
  <script type="text/javascript">
  
- function enrichTable() {
-	  $('.list-group.checked-list-box .list-group-item').each(
-			   function() {
-			    var $item = $(this);
-			    
-			    var $checkBox = $("<input>", {
-			     type:"checkbox"
-			    });
-			    
-			    $checkBox.prependTo($item);
-			    
-			    $item.on('click', function () {
-			     $checkBox.prop('checked', !$checkBox.is(':checked'));
-			     $checkBox.triggerHandler('change');
-			     if ($checkBox.is(':checked')) {
-			      $(this).addClass("active");
-			      // TODO (RV): add impl
-			     } else {
-			      $(this).removeClass("active");
-			   // TODO (RV): add impl
-			     }
-			          });
-			    
-			   });
- }
  </script>
  
  <script>
 		
 		var whatToByApp = angular.module("whatToByApp", []);
 		
-		// TODO (RV): review
-		
-
-		whatToByApp.directive('onLastRepeat', function() {
-			return function(scope, element, attrs) {
-				if (scope.$last) {
-					enrichTable();
-				}
-			};
-		});
-
 		whatToByApp.directive('onLongPress', function($timeout) {
 			return {
 
@@ -196,38 +163,37 @@
 				}
 			};
 		});
-
-		whatToByApp.controller("ItemController", function($scope, $http,
-				$rootScope) {
-
-			$scope.items = {};
+		
+		whatToByApp.controller("ItemController", function($scope, $rootScope, $http) {
+			
+			$scope.data = {};
 
 			updateTable($scope, $http);
-
+			
 			$scope.addItem = function() {
 				addItem($scope, $http);
 			};
-
+			
 			$scope.changeStatus = function(index) {
 				changeStatus($scope, $http, index);
 			};
-
+			
 			$scope.showDeleteConfirmation = function(index) {
 				showDeleteConfirmation($rootScope, $scope, $http, index);
 			};
 
 			$scope.deleteItem = function() {
-				deleteItem($rootScope, $http);
+				deleteItem($scope, $rootScope, $http);
 			};
 
 		});
 
 		function showDeleteConfirmation(rootScope, scope, http, index) {
-			rootScope.itemToDatele = scope.items[index].id;
+			rootScope.itemToDatele = scope.data.requests[index].id;
 			$("#confirmDeleteDialog").modal("show");
 		}
 
-		function deleteItem(rootScope, http) {
+		function deleteItem(scope, rootScope, http) {
 
 			var request = http({
 				method : "post",
@@ -239,31 +205,33 @@
 
 			request.success(function(data, status, headers, config) {
 				$('#confirmDeleteDialog').modal('hide');
+				
+				updateTable(scope, http);
 			});
 
 			request.error(function(data, status, headers, config) {
-				// TODO (RV):
+				// TODO (RV): add impl.
 			});
 		}
 
 		function changeStatus(scope, http, index) {
-			scope.items[index].status = !scope.items[index].status;
+			scope.data.requests[index].status = !scope.data.requests[index].status;
 
 			var request = http({
 				method : "post",
-				url : "../itemservice/changeStatus/" + scope.items[index].id
-						+ "/" + scope.items[index].status,
+				url : "../itemservice/changeStatus/" + scope.data.requests[index].id
+						+ "/" + scope.data.requests[index].status,
 				headers : {
 					'Content-Type' : 'application/x-www-form-urlencoded'
 				}
 			});
 
 			request.success(function(data, status, headers, config) {
-				// TODO (RV):
+				updateTable(scope, http);
 			});
 
 			request.error(function(data, status, headers, config) {
-				// TODO (RV):
+				// TODO (RV): add impl.
 			});
 
 		}
@@ -288,22 +256,31 @@
 
 			request.success(function(data, status, headers, config) {
 				$('#addItemDialog').modal('hide');
+				
+				updateTable(scope, http);
+				
 			});
 
 			request.error(function(data, status, headers, config) {
-				// TODO (RV):
+				// TODO (RV): add impl.
 			});
 
 		}
 
 		function updateTable(scope, http) {
+			
 			var responsePromise = http.get("../itemservice/getItems");
 			responsePromise.success(function(data, status, headers, config) {
-				scope.items = data;
+				scope.data.requests = data;
+				
+				console.log(data);
+				console.log(scope.data.requests);
+				
 			});
 			responsePromise.error(function(data, status, headers, config) {
-				// TODO (RV):
+				// TODO (RV): add impl.
 			});
+			
 		}
 	</script>
  
