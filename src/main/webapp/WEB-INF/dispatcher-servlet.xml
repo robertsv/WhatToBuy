@@ -88,9 +88,24 @@
 		</constructor-arg>
 	</bean>
 	
- 	<sec:http use-expressions="false">
+	<sec:http pattern="/css/**" security="none" />
+	<sec:http pattern="/images/**" security="none" />
+	<sec:http pattern="/js/**" security="none" />
+	<sec:http pattern="/fonts/**" security="none" />
+	<sec:http pattern="/loginpage*" security="none" />
+	
+ 	<sec:http auto-config="true" use-expressions="false">
         <sec:intercept-url pattern="/**" access="ROLE_USER"/>
-        <sec:http-basic/>
+        <sec:logout logout-success-url="/loginpage" logout-url="/logout" />
+        <sec:form-login 
+        	login-page="/loginpage" 
+        	default-target-url="/item/view" 
+        	authentication-failure-url="/loginpage?errror" 
+        	always-use-default-target="true"
+        	login-processing-url="/security_check"
+        	username-parameter="username" 
+        	password-parameter="password"/>
+		<sec:csrf disabled="true"/>
     </sec:http>
  
     <sec:authentication-manager>

@@ -23,7 +23,7 @@ public class ExampleController {
 	@Autowired
     DSLContext create;
 
-	@RequestMapping("/login")
+	@RequestMapping("/loginpage")
 	public String doLogin() {
 		System.out.println(create.select(field("name")).from(table("item")).getSQL());
 		

@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -99,7 +101,7 @@
           <h4>Do you want to logout?</h4>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                <button type="button" class="btn btn-primary">Yes</button>
+                <a href="<c:url value="../logout" />" class="btn btn-primary">Yes</a>
             </div>
         </div>
     </div>
