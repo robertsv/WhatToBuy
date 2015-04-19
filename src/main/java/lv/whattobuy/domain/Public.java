@@ -16,7 +16,7 @@ package lv.whattobuy.domain;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends org.jooq.impl.SchemaImpl {
 
-	private static final long serialVersionUID = 1305790206;
+	private static final long serialVersionUID = 188292925;
 
 	/**
 	 * The reference instance of <code>public</code>
@@ -40,6 +40,7 @@ public class Public extends org.jooq.impl.SchemaImpl {
 	private final java.util.List<org.jooq.Sequence<?>> getSequences0() {
 		return java.util.Arrays.<org.jooq.Sequence<?>>asList(
 			lv.whattobuy.domain.Sequences.ITEM_SEQ,
+			lv.whattobuy.domain.Sequences.USER_ROLES_SEQ,
 			lv.whattobuy.domain.Sequences.USER_SEQ);
 	}
 
@@ -55,6 +56,7 @@ public class Public extends org.jooq.impl.SchemaImpl {
 			lv.whattobuy.domain.tables.Databasechangelog.DATABASECHANGELOG,
 			lv.whattobuy.domain.tables.Databasechangeloglock.DATABASECHANGELOGLOCK,
 			lv.whattobuy.domain.tables.Item.ITEM,
-			lv.whattobuy.domain.tables.User.USER);
+			lv.whattobuy.domain.tables.User.USER,
+			lv.whattobuy.domain.tables.UserRoles.USER_ROLES);
 	}
 }

@@ -23,6 +23,7 @@ public class Keys {
 
 	public static final org.jooq.Identity<lv.whattobuy.domain.tables.records.ItemRecord, java.lang.Long> IDENTITY_ITEM = Identities0.IDENTITY_ITEM;
 	public static final org.jooq.Identity<lv.whattobuy.domain.tables.records.UserRecord, java.lang.Long> IDENTITY_USER = Identities0.IDENTITY_USER;
+	public static final org.jooq.Identity<lv.whattobuy.domain.tables.records.UserRolesRecord, java.lang.Long> IDENTITY_USER_ROLES = Identities0.IDENTITY_USER_ROLES;
 
 	// -------------------------------------------------------------------------
 	// UNIQUE and PRIMARY KEY definitions
@@ -32,6 +33,7 @@ public class Keys {
 	public static final org.jooq.UniqueKey<lv.whattobuy.domain.tables.records.DatabasechangeloglockRecord> PK_DATABASECHANGELOGLOCK = UniqueKeys0.PK_DATABASECHANGELOGLOCK;
 	public static final org.jooq.UniqueKey<lv.whattobuy.domain.tables.records.ItemRecord> PKEY_ITEM = UniqueKeys0.PKEY_ITEM;
 	public static final org.jooq.UniqueKey<lv.whattobuy.domain.tables.records.UserRecord> PKEY_USER = UniqueKeys0.PKEY_USER;
+	public static final org.jooq.UniqueKey<lv.whattobuy.domain.tables.records.UserRolesRecord> PKEY_USER_ROLES = UniqueKeys0.PKEY_USER_ROLES;
 
 	// -------------------------------------------------------------------------
 	// FOREIGN KEY definitions
@@ -46,6 +48,7 @@ public class Keys {
 	private static class Identities0 extends org.jooq.impl.AbstractKeys {
 		public static org.jooq.Identity<lv.whattobuy.domain.tables.records.ItemRecord, java.lang.Long> IDENTITY_ITEM = createIdentity(lv.whattobuy.domain.tables.Item.ITEM, lv.whattobuy.domain.tables.Item.ITEM.ID);
 		public static org.jooq.Identity<lv.whattobuy.domain.tables.records.UserRecord, java.lang.Long> IDENTITY_USER = createIdentity(lv.whattobuy.domain.tables.User.USER, lv.whattobuy.domain.tables.User.USER.ID);
+		public static org.jooq.Identity<lv.whattobuy.domain.tables.records.UserRolesRecord, java.lang.Long> IDENTITY_USER_ROLES = createIdentity(lv.whattobuy.domain.tables.UserRoles.USER_ROLES, lv.whattobuy.domain.tables.UserRoles.USER_ROLES.ID);
 	}
 
 	private static class UniqueKeys0 extends org.jooq.impl.AbstractKeys {
@@ -53,6 +56,7 @@ public class Keys {
 		public static final org.jooq.UniqueKey<lv.whattobuy.domain.tables.records.DatabasechangeloglockRecord> PK_DATABASECHANGELOGLOCK = createUniqueKey(lv.whattobuy.domain.tables.Databasechangeloglock.DATABASECHANGELOGLOCK, lv.whattobuy.domain.tables.Databasechangeloglock.DATABASECHANGELOGLOCK.ID);
 		public static final org.jooq.UniqueKey<lv.whattobuy.domain.tables.records.ItemRecord> PKEY_ITEM = createUniqueKey(lv.whattobuy.domain.tables.Item.ITEM, lv.whattobuy.domain.tables.Item.ITEM.ID);
 		public static final org.jooq.UniqueKey<lv.whattobuy.domain.tables.records.UserRecord> PKEY_USER = createUniqueKey(lv.whattobuy.domain.tables.User.USER, lv.whattobuy.domain.tables.User.USER.ID);
+		public static final org.jooq.UniqueKey<lv.whattobuy.domain.tables.records.UserRolesRecord> PKEY_USER_ROLES = createUniqueKey(lv.whattobuy.domain.tables.UserRoles.USER_ROLES, lv.whattobuy.domain.tables.UserRoles.USER_ROLES.ID);
 	}
 
 	private static class ForeignKeys0 extends org.jooq.impl.AbstractKeys {

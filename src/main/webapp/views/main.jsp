@@ -25,6 +25,7 @@
 
 .list-group-item {
  cursor:pointer;
+ margin: 5px;
 }
 
 </style>

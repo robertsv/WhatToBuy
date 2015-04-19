@@ -23,6 +23,11 @@
  margin-bottom: 10px;
 }
 
+.login-error {
+	margin-top: 15px;
+	width: 250px;
+}
+
 </style>
 
 </head>
@@ -38,9 +43,16 @@
         <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
         <button class="btn btn-lg btn-primary btn-block btn-sign" type="submit">Sign in</button>
       </form>
+      
+      <c:if test="${param.error}">
+      	<div class="center-block alert alert-danger login-error">
+	  		<a class="close" data-dismiss="alert">×</a>
+	  		<strong>Login failed!</strong>
+	  		Either password or user name is wrong!
+	  	</div>
+      </c:if>
+	</div>
 
-    </div>
-    
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.js"></script>
  <script src="js/bootstrap.js"></script>
  <script type="text/javascript">

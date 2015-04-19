@@ -1,16 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
-        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
- 
-   <changeSet author="robertsv" id="5">
-    <insert tableName="user">
-     <column name="name" value="Roberts Vartins" />
-     <column name="username" value="robertsv" />
-     <column name="password" value="TODO" />
-    </insert>
-   </changeSet>
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd" >
 
+	<changeSet author="robertsv" id="2_1">
+		<insert tableName="user">
+			<column name="name" value="Roberts Vartins" />
+			<column name="username" value="robertsv" />
+			<column name="password" value="robertsv" />
+			<column name="enabled" value="true" />
+		</insert>
+	</changeSet>
+	
+	<changeSet author="robertsv" id="2_2">
+		<insert tableName="user">
+			<column name="name" value="Edite Kulmane" />
+			<column name="username" value="editek" />
+			<column name="password" value="editek" />
+			<column name="enabled" value="true" />
+		</insert>
+	</changeSet>
+
+	<changeSet author="robertsv" id="2_3">
+	    <sql>
+	    	insert into user_roles (username, role) values ('robertsv', 'ROLE_USER');
+	    	insert into user_roles (username, role) values ('editek', 'ROLE_USER');
+	    </sql>
+	</changeSet>
+	
 </databaseChangeLog>

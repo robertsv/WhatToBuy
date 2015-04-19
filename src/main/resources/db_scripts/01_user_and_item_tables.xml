@@ -5,28 +5,44 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-	<changeSet author="robertsv" id="1">
+	<changeSet author="robertsv" id="1_1">
 		<createSequence incrementBy="1" maxValue="9223372036854775807"
 			minValue="1" sequenceName="user_seq" startValue="2" />
 	</changeSet>
 
-	<changeSet author="robertsv" id="2">
+	<changeSet author="robertsv" id="1_2">
 		<createSequence incrementBy="1" maxValue="9223372036854775807"
 			minValue="1" sequenceName="item_seq" startValue="2" />
 	</changeSet>
 
-	<changeSet author="robertsv" id="3">
+	<changeSet author="robertsv" id="1_3">
+		<createSequence incrementBy="1" maxValue="9223372036854775807"
+			minValue="1" sequenceName="user_roles_seq" startValue="2" />
+	</changeSet>
+
+	<changeSet author="robertsv" id="1_4">
 		<createTable tableName="user">
 			<column name="id" type="bigint" defaultValueComputed="nextval('user_seq'::regclass)" />
 			<column name="name" type="varchar(255)" />
 			<column name="username" type="varchar(255)" />
 			<column name="password" type="varchar(255)" />
+			<column name="enabled" type="boolean" />
 		</createTable>
 		<addPrimaryKey tableName="user" columnNames="id"
 			constraintName="pkey_user" />
 	</changeSet>
+	
+	<changeSet author="robertsv" id="1_5">
+		<createTable tableName="user_roles">
+			<column name="id" type="bigint" defaultValueComputed="nextval('user_roles_seq'::regclass)" />
+			<column name="username" type="varchar(255)" />
+			<column name="role" type="varchar(255)" />
+		</createTable>
+		<addPrimaryKey tableName="user_roles" columnNames="id"
+			constraintName="pkey_user_roles" />
+	</changeSet>
 
-	<changeSet author="robertsv" id="4">
+	<changeSet author="robertsv" id="1_6">
 		<createTable tableName="item">
 			<column name="id" type="bigint" defaultValueComputed="nextval('item_seq'::regclass)" />
 			<column name="name" type="varchar(255)" />

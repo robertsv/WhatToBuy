@@ -16,7 +16,7 @@ package lv.whattobuy.domain.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class User extends org.jooq.impl.TableImpl<lv.whattobuy.domain.tables.records.UserRecord> {
 
-	private static final long serialVersionUID = 619750809;
+	private static final long serialVersionUID = -520119348;
 
 	/**
 	 * The reference instance of <code>public.user</code>
@@ -50,6 +50,11 @@ public class User extends org.jooq.impl.TableImpl<lv.whattobuy.domain.tables.rec
 	 * The column <code>public.user.password</code>.
 	 */
 	public final org.jooq.TableField<lv.whattobuy.domain.tables.records.UserRecord, java.lang.String> PASSWORD = createField("password", org.jooq.impl.SQLDataType.VARCHAR.length(255), this, "");
+
+	/**
+	 * The column <code>public.user.enabled</code>.
+	 */
+	public final org.jooq.TableField<lv.whattobuy.domain.tables.records.UserRecord, java.lang.Boolean> ENABLED = createField("enabled", org.jooq.impl.SQLDataType.BOOLEAN, this, "");
 
 	/**
 	 * Create a <code>public.user</code> table reference

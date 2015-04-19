@@ -22,6 +22,11 @@ public class Sequences {
 	public static final org.jooq.Sequence<java.lang.Long> ITEM_SEQ = new org.jooq.impl.SequenceImpl<java.lang.Long>("item_seq", lv.whattobuy.domain.Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));
 
 	/**
+	 * The sequence <code>public.user_roles_seq</code>
+	 */
+	public static final org.jooq.Sequence<java.lang.Long> USER_ROLES_SEQ = new org.jooq.impl.SequenceImpl<java.lang.Long>("user_roles_seq", lv.whattobuy.domain.Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));
+
+	/**
 	 * The sequence <code>public.user_seq</code>
 	 */
 	public static final org.jooq.Sequence<java.lang.Long> USER_SEQ = new org.jooq.impl.SequenceImpl<java.lang.Long>("user_seq", lv.whattobuy.domain.Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));
