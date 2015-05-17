@@ -6,6 +6,7 @@ import java.util.List;
 
 import lv.whattobuy.dao.ItemDao;
 import lv.whattobuy.dto.Item;
+import lv.whattobuy.dto.User;
 import lv.whattobuy.mappers.jooq.ItemRecordMapper;
 
 import org.jooq.DSLContext;
@@ -49,5 +50,13 @@ public class ItemJooqDao implements ItemDao {
 	public void delete(Item entity) {
 		create.delete(ITEM).where(ITEM.ID.equal(entity.getId())).execute();
 	}
+	
+	public List<Item> getByUser(User user) {
+		List<Item> items = create.select().from(ITEM).where(ITEM.USER_ID.equal(user.getId())).orderBy(ITEM.ID).fetch().into(ITEM)
+				.map(new ItemRecordMapper());
+
+		return items;
+	}
+	
 
 }

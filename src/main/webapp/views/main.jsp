@@ -50,7 +50,7 @@
   </div>
  </nav>
  
- <div class="container" > <!-- TODO (RV): ng-controller="ItemController" -->
+ <div class="container"> <!-- TODO (RV): ng-controller="ItemController" -->
   <h3 class="text-center">Items to buy</h3>
   <ul class="list-group checked-list-box" >
    <span ng-repeat="item in data.requests">
@@ -78,7 +78,7 @@
         </div>
         <div class="col-md-9">
          <p>
-          <input type="text" id="itemName" class="form-control" required autofocus ng-model="itemName">
+          <input type="text" id="itemName" class="form-control focusedInput" required autofocus ng-model="itemName">
         </div>
         <div></div>
        </div>
@@ -124,6 +124,20 @@
     </div>
 </div>
 
+<div id="infoDialog" class="modal fade bs-example-modal-lg">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+        <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"></button>
+            </div>
+          <h4>{{ infoText }}</h4>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.js"></script>
  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.js"></script>
  
@@ -137,15 +151,15 @@
 		
 		var whatToByApp = angular.module("whatToByApp", []);
 		
-		whatToByApp.directive('onLongPress', function($timeout) {
+		whatToByApp.directive("onLongPress", function($timeout) {
 			return {
 
-				restrict : 'A',
+				restrict : "A",
 
 				link : function($scope, $elm, $attrs) {
 
-					$elm.bind('mousedown', function(evt) {
-						console.log('mousedown');
+					$elm.bind("mousedown", function(evt) {
+						console.log("mousedown");
 						$scope.longPress = true;
 						$timeout(function() {
 							if ($scope.longPress) {
@@ -158,8 +172,8 @@
 						}, 600);
 					});
 
-					$elm.bind('mouseup', function(evt) {
-						console.log('mouseup');
+					$elm.bind("mouseup", function(evt) {
+						console.log("mouseup");
 						$scope.longPress = false;
 					});
 
@@ -202,18 +216,19 @@
 				method : "post",
 				url : "../itemservice/delete/" + rootScope.itemToDatele,
 				headers : {
-					'Content-Type' : 'application/x-www-form-urlencoded'
+					"Content-Type" : "application/x-www-form-urlencoded"
 				}
 			});
 
 			request.success(function(data, status, headers, config) {
-				$('#confirmDeleteDialog').modal('hide');
+				$("#confirmDeleteDialog").modal("hide");
 				
 				updateTable(scope, http);
 			});
 
 			request.error(function(data, status, headers, config) {
-				// TODO (RV): add impl.
+				scope.infoText = "Operation failed!";
+				$("#infoDialog").modal("show");
 			});
 		}
 
@@ -225,7 +240,7 @@
 				url : "../itemservice/changeStatus/" + scope.data.requests[index].id
 						+ "/" + scope.data.requests[index].status,
 				headers : {
-					'Content-Type' : 'application/x-www-form-urlencoded'
+					"Content-Type" : "application/x-www-form-urlencoded"
 				}
 			});
 
@@ -234,7 +249,8 @@
 			});
 
 			request.error(function(data, status, headers, config) {
-				// TODO (RV): add impl.
+				scope.infoText = "Operation failed!";
+				$("#infoDialog").modal("show");
 			});
 
 		}
@@ -249,7 +265,7 @@
 				method : "post",
 				url : "../itemservice/add",
 				headers : {
-					'Content-Type' : 'application/x-www-form-urlencoded'
+					"Content-Type" : "application/x-www-form-urlencoded"
 				},
 				data : {
 					name : scope.itemName
@@ -258,14 +274,18 @@
 			});
 
 			request.success(function(data, status, headers, config) {
-				$('#addItemDialog').modal('hide');
+				scope.itemName = "";
+				$("#addItemDialog").modal("hide");
+				$("#itemName").focus();
+				
 				
 				updateTable(scope, http);
 				
 			});
 
 			request.error(function(data, status, headers, config) {
-				// TODO (RV): add impl.
+				scope.infoText = "Operation failed!";
+				$("#infoDialog").modal("show");
 			});
 
 		}
@@ -281,7 +301,8 @@
 				
 			});
 			responsePromise.error(function(data, status, headers, config) {
-				// TODO (RV): add impl.
+				scope.infoText = "Operation failed!";
+				$("#infoDialog").modal("show");
 			});
 			
 		}
