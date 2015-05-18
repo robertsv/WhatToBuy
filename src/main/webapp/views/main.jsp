@@ -63,11 +63,11 @@
  </div>
  
  <div id="addItemDialog" class="modal fade" > <!-- TODO (RV): ng-controller="ItemController" -->
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-mg">
     <div class="modal-content">
      <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal"></button>
-      <h4 class="modal-title">Add item</h4>
+      <h3 class="modal-title">Add item</h3>
      </div>
      <div class="modal-body">
       <div class="container-fluid">
@@ -93,13 +93,15 @@
  </div>
  
  <div id="confirmLogoutDialog" class="modal fade bs-example-modal-lg">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog modal-mg">
         <div class="modal-content">
         <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"></button>
-                <h4 class="modal-title">Logout</h4>
+                <h3 class="modal-title">Logout</h3>
             </div>
-          <h4>Do you want to logout?</h4>
+          <div class="modal-body">
+				<h4>Do you want to logout?</h4>
+			</div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
                 <a href="<c:url value="../logout" />" class="btn btn-primary">Yes</a>
@@ -109,13 +111,15 @@
 </div>
 
 <div id="confirmDeleteDialog" class="modal fade bs-example-modal-lg" > <!-- TODO (RV): ng-controller="ItemController" -->
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog modal-mg">
         <div class="modal-content">
         <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"></button>
-                <h4 class="modal-title">Delete?</h4>
+                <h3 class="modal-title">Delete?</h3>
             </div>
-          <h4>Do you want to delete item?</h4>
+            <div class="modal-body">
+				<h4>Do you want to delete item?</h4>
+			</div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
                 <button type="button" class="btn btn-primary" ng-click="deleteItem()">Yes</button>
@@ -125,12 +129,14 @@
 </div>
 
 <div id="infoDialog" class="modal fade bs-example-modal-lg">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog modal-mg">
         <div class="modal-content">
         <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"></button>
             </div>
-          <h4>{{ infoText }}</h4>
+            <div class="modal-body">
+				<h4>{{ infoText }}</h4>
+			</div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
             </div>
