@@ -34,8 +34,8 @@
 		destroy-method="close">
 		<property name="url" value="jdbc:postgresql://localhost/whattobuy" />
 		<property name="driverClassName" value="org.postgresql.Driver" />
-		<property name="username" value="admin" />
-		<property name="password" value="admin" />
+		<property name="username" value="postgres" />
+		<property name="password" value="postgres" />
 	</bean>
 
 	<!-- Configure Spring's transaction manager to use a DataSource -->

@@ -124,6 +124,15 @@
 					</execution>
 				</executions>
 			</plugin>
+            <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.3</version>
+            <configuration>
+              <source>1.7</source>
+              <target>1.7</target>
+            </configuration>
+            </plugin>
 			<plugin>
 				<groupId>org.jooq</groupId>
 				<artifactId>jooq-codegen-maven</artifactId>
@@ -146,8 +155,8 @@
 					<jdbc>
 						<driver>org.postgresql.Driver</driver>
 						<url>jdbc:postgresql:whattobuy</url>
-						<user>admin</user>
-						<password>admin</password>
+						<user>postgres</user>
+						<password>postgres</password>
 					</jdbc>
 					<generator>
 						<name>org.jooq.util.DefaultGenerator</name>
