@@ -96,6 +96,14 @@
 		<finalName>WhatToBuy</finalName>
 		<plugins>
 			<plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+	            <artifactId>maven-war-plugin</artifactId>
+	            <version>2.6</version>
+	            <configuration>
+	                <failOnMissingWebXml>false</failOnMissingWebXml>
+	            </configuration>
+        	</plugin>
+			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>2.2</version>
@@ -103,11 +111,8 @@
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
-				<configuration>
-					<contextFile>webapp/META-INF/context.xml</contextFile>
-					<tomcatUsers>/home/roberts/Desktop/Projects/WhatToBuy/src/main/webapp/META-INF/tomcat-users.xml</tomcatUsers>
-				</configuration>
 			</plugin>
+			<!--
 			<plugin>
 				<groupId>org.liquibase</groupId>
 				<artifactId>liquibase-maven-plugin</artifactId>
@@ -124,6 +129,7 @@
 					</execution>
 				</executions>
 			</plugin>
+			-->
             <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
