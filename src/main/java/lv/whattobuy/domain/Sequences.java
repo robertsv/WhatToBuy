@@ -17,6 +17,11 @@ package lv.whattobuy.domain;
 public class Sequences {
 
 	/**
+	 * The sequence <code>public.hibernate_sequence</code>
+	 */
+	public static final org.jooq.Sequence<java.lang.Long> HIBERNATE_SEQUENCE = new org.jooq.impl.SequenceImpl<java.lang.Long>("hibernate_sequence", lv.whattobuy.domain.Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));
+
+	/**
 	 * The sequence <code>public.item_seq</code>
 	 */
 	public static final org.jooq.Sequence<java.lang.Long> ITEM_SEQ = new org.jooq.impl.SequenceImpl<java.lang.Long>("item_seq", lv.whattobuy.domain.Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));

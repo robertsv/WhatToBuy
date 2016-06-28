@@ -4,11 +4,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import lv.whattobuy.dao.ItemDao;
-import lv.whattobuy.dao.UserDao;
-import lv.whattobuy.dto.Item;
-import lv.whattobuy.dto.User;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -17,6 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import lv.whattobuy.dao.ItemDao;
+import lv.whattobuy.dao.UserDao;
+import lv.whattobuy.dto.Item;
+import lv.whattobuy.dto.User;
 
 @Controller
 @RequestMapping("/itemservice")
@@ -29,7 +29,7 @@ public class ItemRestService {
 
 	@Autowired
 	private ItemDao itemDao;
-
+	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@ResponseBody
 	public void addItem(@ModelAttribute Item item, HttpSession session) {

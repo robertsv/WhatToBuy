@@ -40,4 +40,9 @@ public class Tables {
 	 * The table public.user_roles
 	 */
 	public static final lv.whattobuy.domain.tables.UserRoles USER_ROLES = lv.whattobuy.domain.tables.UserRoles.USER_ROLES;
+
+	/**
+	 * The table public.users
+	 */
+	public static final lv.whattobuy.domain.tables.Users USERS = lv.whattobuy.domain.tables.Users.USERS;
 }

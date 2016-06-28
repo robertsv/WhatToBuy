@@ -12,20 +12,20 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/css/**", "/images/**", "/js/**", "/fonts/**", "/loginpage*"); // #3
+		web.ignoring().antMatchers("/css/**", "/images/**", "/js/**", "/fonts/**");
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers("/**")
-			.access("hasRole('USER')")
+			.anyRequest().hasRole("USER")
 			.and().formLogin()
 			.loginPage("/login")
+			.defaultSuccessUrl("/item/view")
 			.failureUrl("/login?error=true").permitAll().and().csrf().disable();
 	}
 
@@ -36,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
 
 		auth.jdbcAuthentication().dataSource(dataSource)
-				.usersByUsernameQuery("select username, password, enabled from \"user\" where username = ? ")
+				.usersByUsernameQuery("select username, password, enabled from \"user\" where username = ?")
 				.authoritiesByUsernameQuery("select username, role from user_roles where username = ?");
 	}
 

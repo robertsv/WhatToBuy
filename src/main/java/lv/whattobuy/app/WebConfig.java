@@ -23,7 +23,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "lv.whattobuy")
-public class AppConfig extends WebMvcConfigurerAdapter {
+public class WebConfig extends WebMvcConfigurerAdapter {
 	
 	@Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
@@ -83,5 +83,5 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		defaultConfiguration.setSQLDialect(SQLDialect.POSTGRES);
 		return defaultConfiguration;
     }
-
+	
 }
